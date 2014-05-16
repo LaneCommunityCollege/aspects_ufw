@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+{% for app in aspects_ufw_custom_apps %}
+[{{ aspects_ufw_custom_apps[app].name }}]
+description={{ aspects_ufw_custom_apps[app].description }}
+ports={{ aspects_ufw_custom_apps[app].ports }}
+{% endfor %}

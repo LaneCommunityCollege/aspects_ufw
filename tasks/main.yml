@@ -1,0 +1,28 @@
+---
+# file: roles/ufw/tasks/main.yml
+# see https://wiki.archlinux.org/index.php/Uncomplicated_Firewall#Adding_other_applications
+- name: ensure ufw is installed Debian style
+  when: ansible_os_family == "Debian"
+  apt: pkg=ufw state=latest
+  tags:
+    - ufw
+
+- name: set firewall state and policy
+  ufw: state="{{ aspects_ufw_default_policy.state }}" policy="{{ aspects_ufw_default_policy.policy }}"
+  tags:
+    - ufw
+
+- name: set rules based on aspects_ufw_apps
+  when: item.value.enabled
+  ufw: name="{{ item.value.name }}" rule="{{ item.value.rule }}"
+  with_dict: aspects_ufw_apps
+
+- name: create /etc/ufw/applications.d/ansible_aspects_ufw_custom_apps
+  template: src=ansible_aspects_ufw_custom_apps.j2 dest=/etc/ufw/applications.d/ansible_aspects_ufw_custom_apps
+  tags:
+    - ufw
+
+- name: set rules based on aspects_ufw_custom_apps
+  when: item.value.enabled
+  ufw: name="{{ item.value.name }}" rule="{{ item.value.rule }}"
+  with_dict: aspects_ufw_custom_apps
