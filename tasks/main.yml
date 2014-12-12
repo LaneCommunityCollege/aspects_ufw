@@ -13,9 +13,25 @@
     - aspects_ufw
 
 - name: set rules based on aspects_ufw_apps
-  when: item.value.enabled
+  when:
+    item.value.enabled and
+    item.value.src is not defined
   ufw: name="{{ item.value.name }}" rule="{{ item.value.rule }}"
   with_dict: aspects_ufw_apps
+  tags:
+    - aspects_ufw
+
+- name: set rules based on aspects_ufw_apps that have src defined
+  when:
+    item.value.enabled and
+    item.value.src is defined
+  ufw:
+    name="{{ item.value.name }}"
+    rule="{{ item.value.rule }}"
+    src="{{ item.value.src }}"
+  with_dict: aspects_ufw_apps
+  tags:
+    - aspects_ufw
 
 - name: create /etc/ufw/applications.d/ansible_aspects_ufw_custom_apps
   template: src=ansible_aspects_ufw_custom_apps.j2 dest=/etc/ufw/applications.d/ansible_aspects_ufw_custom_apps
