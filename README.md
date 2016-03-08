@@ -1,4 +1,4 @@
-ufw
+UNMAINTAINED - ufw
 ========
 
 A simple role that manages the ufw firewall via ufw's app profile feature.
