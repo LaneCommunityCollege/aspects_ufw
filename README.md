@@ -1,4 +1,4 @@
-ufw
+UNMAINTAINED - ufw
 ========
 
 # No longer updated
