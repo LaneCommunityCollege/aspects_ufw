@@ -1,6 +1,9 @@
 ufw
 ========
 
+# No longer updated
+Use [aspects_iptables](https://github.com/LaneCommunityCollege/aspects_iptables)
+
 A simple role that manages the ufw firewall via ufw's app profile feature.
 
 
